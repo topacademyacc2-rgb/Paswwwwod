@@ -1,5 +1,13 @@
 import string, secrets
-exit = 0
+from dotenv import load_dotenv, set_key
+
+ENV_PATH = '.env.example'
+
+def save_password_to_env(service_name, password):
+    key_name = f"{service_name.upper()}_PASSWORD"
+    set_key(ENV_PATH, key_name, password)
+    print(f"Пароль успешно сохранен под ключом {key_name}!")
+
 chars = ""
 print("Выберите компоненты вашего пароля\n")
 comps = input("1. Заглавные символы (y/n): ")
@@ -28,5 +36,4 @@ while True:
     except ValueError:
         print("Введите корректное число")
 pwd = ''.join(secrets.choice(chars) for _ in range(length))
-print("Пароль: ", pwd)
-    
+save_password_to_env("last_generated", pwd)
